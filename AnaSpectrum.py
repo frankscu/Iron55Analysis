@@ -100,7 +100,7 @@ def drawSpecturm():
 
         tdc_channel=risetimeUp-risetimeDown
         if risetimeflag==True and tdc_channel<1 and adc_channel>12:
-            tdc_nchannels.append(tdc_channel/adc_channel)
+            tdc_nchannels.append(tdc_channel/adc_channel*2)
             adcBytdc_nchannels.append(adc_channel)
         print(str(adc_channel))
         print(str(tdc_channel))
@@ -121,7 +121,7 @@ def drawSpecturm():
 
     f3=plt.figure(3,figsize=(10,7.5))
     plt.hist(tdc_nchannels,bins=150, histtype='step')
-    plt.xlabel('Rise Time [us]',fontsize=24)
+    plt.xlabel('Slope [us]',fontsize=24)
     plt.ylabel('Counts',fontsize=24)
     plt.xlim((0,0.2))
     plt.yscale('log')
@@ -132,9 +132,9 @@ def drawSpecturm():
     hb = plt.hexbin(adcBytdc_nchannels,tdc_nchannels,cmap='Greys')
     cb = f4.colorbar(hb)
     cb.set_label("counts")
-    plt.ylim((0,0.02))
-    plt.xlabel('Minimal Voltage',fontsize=24)
-    plt.ylabel('Rise Time [us]',fontsize=24)
+    plt.ylim((0,0.04))
+    plt.xlabel('Minimal Voltage [mV]',fontsize=24)
+    plt.ylabel('Slope',fontsize=24)
 
     fPdf.savefig()
 
@@ -151,10 +151,10 @@ def drawMultipleTraces():
             if i%2==0 or i==971 or i==973 or i==977: continue
             data = readData(i)
             drawTrace(j,i,data)
-            risetimeUp,riseampUp, risetimeDown, riseampDown, risetimeflag=getRiseTime(data)
-            if risetimeflag==True:
-                markerRisetime(j,risetimeUp,riseampUp,risetimeDown,riseampDown)
-            print('')
+            #risetimeUp,riseampUp, risetimeDown, riseampDown, risetimeflag=getRiseTime(data)
+            #if risetimeflag==True:
+            #    markerRisetime(j,risetimeUp,riseampUp,risetimeDown,riseampDown)
+            #print('')
 
         fp=plt.figure(j,figsize=(10,7.5))
         plt.legend(prop={'size':15})
@@ -277,7 +277,7 @@ def drawSingleTraces():
 ################## Main Function #################
 if __name__ == "__main__":
     #drawMultipleTraces()
-    #drawSingleTraces()
-    drawSpecturm()
+    drawSingleTraces()
+    #drawSpecturm()
 
 input("Press Enter to continue...")

@@ -25,7 +25,7 @@ def csv_reader(fileName):
 
 def readData(situation):
     ################## load the excel file ##################
-    fileName = '../OverMOSLaser/'+situation+'.csv'
+    fileName = '../OverMOSLaserOut7/'+situation+'.csv'
     #print("Processing File: ",fileName)
 
     times,amps=csv_reader(fileName)
@@ -129,8 +129,8 @@ def drawMultipleTraces():
         risetimes=[]
         amps=[]
         for i in range(7*j,7*(j+1)):
-            situation = "F1longPassivePixels000" + str(int(i*2+1)).zfill(2)
-            situationBase = "F1longPassivePixels000" + str(int(i*2)).zfill(2)
+            situation = "F1longPassivePixelsOut7_000" + str(int(i*2+1)).zfill(2)
+            situationBase = "F1longPassivePixelsOut7_000" + str(int(i*2)).zfill(2)
             data = readData(situation)
             basedata = readData(situationBase)
             newdata = minusBaseLine(data,basedata)
@@ -188,12 +188,10 @@ def drawTraces():
                 '^','^-','^-.', \
                 '+','+-','+-.', \
                 'o','o-','o-.']
-    situationList=["F1longPassivePixels00100","F1longPassivePixels00102", "C4longPassivePixels00000"]
-    situationBaseList=["F1longPassivePixels00099","F1longPassivePixels00101"]
+    situationList=["F1longPassivePixelsOut7_00011","F1longPassivePixelsOut7_00013"]
+    situationBaseList=["F1longPassivePixelsOut7_00010","F1longPassivePixelsOut7_00012"]
 
-    bias_voltageList=["Pixel4_Bias_5","Pixel4_Bias_10","Pixel4_Bias 1.0",\
-                      "Pixel4_Bias_1.5","Pixel4_Bias_2.0",\
-                      "Pixel4_Bias_3.0","Pixel4_Bias_4.0"]
+    bias_voltageList=["Pixel7_Bias_5","Pixel7_Bias_10"]
     fPdf = PdfPages('LaserPosA.pdf')
     for i in range(0,2):
         data = readData(situationList[i])
@@ -209,19 +207,19 @@ def drawTraces():
     f1=plt.figure(1,figsize=(10,7.5))
     plt.legend(prop={'size':15})
     plt.xlim((-50,350))
-    plt.ylim((-100,200))
+    plt.ylim((-1000,2000))
     f1.show()
     fPdf.savefig()
 
     f2=plt.figure(2,figsize=(10,7.5))
     plt.legend(prop={'size':15})
     plt.xlim((-50,350))
-    plt.ylim((-100,200))
+    plt.ylim((-1000,2000))
     f2.show()
     fPdf.savefig()
     fPdf.close()
 
 if __name__ == "__main__":
-    #drawMultipleTraces()
-    drawTraces()
+    drawMultipleTraces()
+    #drawTraces()
 input("Press Enter to continue...")
